@@ -1,0 +1,118 @@
+CREATE TABLE IF NOT EXISTS Boutique (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      nom TEXT,
+      idEntreprise INTEGER,
+      FOREIGN KEY (idEntreprise) REFERENCES Entreprise(id)
+    )
+
+
+     CREATE TABLE IF NOT EXISTS Categorie (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nom TEXT
+     )
+
+      CREATE TABLE IF NOT EXISTS Client (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      nom TEXT,
+      prenom TEXT,
+      dateNaissance TEXT,
+      adresse TEXT,
+      ville TEXT,
+      pays TEXT,
+      telephone TEXT,
+      email TEXT,
+      password TEXT,
+      statut TEXT
+    )
+
+     CREATE TABLE IF NOT EXISTS Commande (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    dateCommande TEXT,
+    montantTotal TEXT,
+    clientId INTEGER,
+    FOREIGN KEY (clientId) REFERENCES Client(id)
+  )
+
+   CREATE TABLE IF NOT EXISTS Conge (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      employeId INTEGER,
+      dateDebut TEXT,
+      dateFin TEXT,
+      raison TEXT,
+      statut TEXT,
+      FOREIGN KEY (employeId) REFERENCES Employe(id) ON DELETE CASCADE
+    )
+
+
+    CREATE TABLE IF NOT EXISTS Employe (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      nom TEXT,
+      prenom TEXT,
+      dateNaissance TEXT,
+      adresse TEXT,
+      ville TEXT,
+      pays TEXT,
+      telephone TEXT,
+      email TEXT,
+      password TEXT,
+      dateEmbauche TEXT
+    )
+
+     CREATE TABLE IF NOT EXISTS Entreprise (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      nomEntreprise TEXT,
+      adresse TEXT,
+      codePostal TEXT,
+      pays TEXT,
+      ville TEXT,
+      contact TEXT,
+      email TEXT
+    )
+
+     CREATE TABLE IF NOT EXISTS LigneCommande (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nomProduit TEXT,
+    quantite TEXT,
+    prixUnitaire TEXT,
+    totalLigne TEXT,
+    commandeId INTEGER,
+    produitId INTEGER,
+    remiseId INTEGER,
+    FOREIGN KEY (commandeId) REFERENCES Commande(id),
+    FOREIGN KEY (produitId) REFERENCES Produit(id),
+    FOREIGN KEY (remiseId) REFERENCES Remise(id)
+  )
+
+
+  CREATE TABLE IF NOT EXISTS Paiement (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    montant REAL NOT NULL,
+    datePaiement TEXT NOT NULL,
+    modePaiement TEXT NOT NULL,
+    idCommande INTEGER,
+    FOREIGN KEY (idCommande) REFERENCES Commande(id)
+  )
+
+  CREATE TABLE IF NOT EXISTS Produit (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    libelle TEXT NOT NULL,
+    description TEXT,
+    prix TEXT NOT NULL,
+    quantiteStock TEXT NOT NULL,
+    dateAjout TEXT,
+    categorieId INTEGER,
+    FOREIGN KEY (categorieId) REFERENCES Categorie(id)
+  )
+
+   CREATE TABLE IF NOT EXISTS Remise (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    codeRemise TEXT,
+    description TEXT,
+    valeurRemise TEXT,
+    typeRemise TEXT,
+    dateDebut TEXT,
+    dateFin TEXT,
+    statutRemise TEXT,
+    utilisationMax TEXT,
+    utilisationActuelle TEXT
+  )

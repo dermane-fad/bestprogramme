@@ -1,0 +1,25 @@
+<h2>Produits</h2>
+
+<!-- Formulaire Ajouter / Modifier -->
+<form (ngSubmit)="onSubmit()" #produitForm="ngForm">
+  <input type="text" placeholder="Libellé" [(ngModel)]="formProduit.libelle" name="libelle" required />
+  <input type="text" placeholder="Description" [(ngModel)]="formProduit.description" name="description" />
+  <input type="text" placeholder="Prix" [(ngModel)]="formProduit.prix" name="prix" required />
+  <input type="text" placeholder="Quantité" [(ngModel)]="formProduit.quantiteStock" name="quantiteStock" required />
+  <button type="submit">{{ formProduit.id ? 'Modifier' : 'Ajouter' }}</button>
+  <button type="button" (click)="resetForm()">Annuler</button>
+</form>
+
+<!-- Liste des produits -->
+<ul *ngIf="produits.length > 0; else vide">
+  <li *ngFor="let p of produits">
+    {{ p.libelle }} - {{ p.prix }} FCFA ({{ p.quantiteStock }} en stock)
+    <button (click)="editProduit(p)">Modifier</button>
+    <button (click)="deleteProduit(p.id!)">Supprimer</button>
+  </li>
+</ul>
+
+<ng-template #vide>
+  <p>Aucun produit trouvé.</p>
+</ng-template>
+
